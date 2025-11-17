@@ -67,3 +67,4 @@ converted/
 # Trace files (keep directory structure, ignore trace JSONs)
 traces/*.json
 !traces/example_trace.json
+!traces/action_llm_node_example.json

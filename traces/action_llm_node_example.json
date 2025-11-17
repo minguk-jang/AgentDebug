@@ -1,0 +1,158 @@
+{
+  "id": "trace-action-llm-001",
+  "name": "apple-microwave-task",
+  "metadata": {
+    "task": "Put a clean apple in the microwave",
+    "success": true,
+    "environment": "alfred"
+  },
+  "input": "Your task is: Put a clean apple in the microwave",
+  "output": "Task completed successfully",
+  "observations": [
+    {
+      "id": "obs-1",
+      "type": "GENERATION",
+      "name": "action_llm_node",
+      "input": {
+        "task": "Put a clean apple in the microwave",
+        "observation": "You are in the kitchen. You see: apple on counter, sink, microwave on the wall."
+      },
+      "output": "<memory>\nI previously saw the apple in the kitchen on the counter.\nThe microwave is also in the kitchen.\n</memory>\n\n<reflection>\nCurrent progress: I have located the apple but haven't picked it up yet.\nThe task requires me to clean the apple first before putting it in microwave.\n</reflection>\n\n<plan>\n1. Go to the apple location\n2. Pick up the apple\n3. Clean the apple in the sink\n4. Put clean apple in microwave\n</plan>\n\n<action>\ngoto(apple)\n</action>",
+      "metadata": {},
+      "start_time": "2025-01-01T00:00:00Z",
+      "end_time": "2025-01-01T00:00:01Z"
+    },
+    {
+      "id": "obs-2",
+      "type": "EVENT",
+      "name": "environment_response",
+      "input": null,
+      "output": "You are now at the apple on the counter.",
+      "metadata": {
+        "is_environment_response": true
+      },
+      "start_time": "2025-01-01T00:00:01Z",
+      "end_time": "2025-01-01T00:00:01Z"
+    },
+    {
+      "id": "obs-3",
+      "type": "GENERATION",
+      "name": "action_llm_node",
+      "input": {
+        "observation": "You are now at the apple on the counter."
+      },
+      "output": "<memory>\nI found the apple on the counter and moved to its location.\nNext I need to pick it up.\n</memory>\n\n<reflection>\nGood progress. I'm at the apple's location now.\nI should pick it up next.\n</reflection>\n\n<plan>\n1. Pick up the apple\n2. Go to sink\n3. Clean the apple\n4. Go to microwave\n5. Put apple in microwave\n</plan>\n\n<action>\npick_up(apple)\n</action>",
+      "metadata": {},
+      "start_time": "2025-01-01T00:00:02Z",
+      "end_time": "2025-01-01T00:00:03Z"
+    },
+    {
+      "id": "obs-4",
+      "type": "EVENT",
+      "name": "environment_response",
+      "input": null,
+      "output": "You picked up the apple.",
+      "metadata": {
+        "is_environment_response": true
+      },
+      "start_time": "2025-01-01T00:00:03Z",
+      "end_time": "2025-01-01T00:00:03Z"
+    },
+    {
+      "id": "obs-5",
+      "type": "GENERATION",
+      "name": "action_llm_node",
+      "input": {
+        "observation": "You picked up the apple."
+      },
+      "output": "<memory>\nI have successfully picked up the apple.\nNow I need to clean it in the sink before putting it in the microwave.\n</memory>\n\n<reflection>\nTask is progressing well. I have the apple.\nNext critical step is cleaning it as required.\n</reflection>\n\n<plan>\n1. Go to the sink\n2. Clean the apple in sink\n3. Go to microwave\n4. Put apple in microwave\n</plan>\n\n<action>\ngoto(sink)\n</action>",
+      "metadata": {},
+      "start_time": "2025-01-01T00:00:04Z",
+      "end_time": "2025-01-01T00:00:05Z"
+    },
+    {
+      "id": "obs-6",
+      "type": "EVENT",
+      "name": "environment_response",
+      "input": null,
+      "output": "You are now at the sink.",
+      "metadata": {
+        "is_environment_response": true
+      },
+      "start_time": "2025-01-01T00:00:05Z",
+      "end_time": "2025-01-01T00:00:05Z"
+    },
+    {
+      "id": "obs-7",
+      "type": "GENERATION",
+      "name": "action_llm_node",
+      "input": {
+        "observation": "You are now at the sink."
+      },
+      "output": "<memory>\nI'm at the sink with the apple.\nI need to clean the apple here.\n</memory>\n\n<reflection>\nPerfect positioning. Ready to clean the apple.\n</reflection>\n\n<plan>\n1. Clean the apple\n2. Go to microwave\n3. Put clean apple in microwave\n</plan>\n\n<action>\nclean(apple, sink)\n</action>",
+      "metadata": {},
+      "start_time": "2025-01-01T00:00:06Z",
+      "end_time": "2025-01-01T00:00:07Z"
+    },
+    {
+      "id": "obs-8",
+      "type": "EVENT",
+      "name": "environment_response",
+      "input": null,
+      "output": "You cleaned the apple in the sink.",
+      "metadata": {
+        "is_environment_response": true
+      },
+      "start_time": "2025-01-01T00:00:07Z",
+      "end_time": "2025-01-01T00:00:07Z"
+    },
+    {
+      "id": "obs-9",
+      "type": "GENERATION",
+      "name": "action_llm_node",
+      "input": {
+        "observation": "You cleaned the apple in the sink."
+      },
+      "output": "<memory>\nSuccessfully cleaned the apple in the sink.\nNow I have a clean apple and need to put it in the microwave.\n</memory>\n\n<reflection>\nExcellent! Apple is now clean.\nFinal step is to place it in the microwave.\n</reflection>\n\n<plan>\n1. Go to microwave\n2. Put the clean apple in microwave\n</plan>\n\n<action>\ngoto(microwave)\n</action>",
+      "metadata": {},
+      "start_time": "2025-01-01T00:00:08Z",
+      "end_time": "2025-01-01T00:00:09Z"
+    },
+    {
+      "id": "obs-10",
+      "type": "EVENT",
+      "name": "environment_response",
+      "input": null,
+      "output": "You are now at the microwave.",
+      "metadata": {
+        "is_environment_response": true
+      },
+      "start_time": "2025-01-01T00:00:09Z",
+      "end_time": "2025-01-01T00:00:09Z"
+    },
+    {
+      "id": "obs-11",
+      "type": "GENERATION",
+      "name": "action_llm_node",
+      "input": {
+        "observation": "You are now at the microwave."
+      },
+      "output": "<memory>\nI'm at the microwave with a clean apple.\nThis is the final step of the task.\n</memory>\n\n<reflection>\nReady to complete the task.\nI have the clean apple and I'm at the microwave.\n</reflection>\n\n<plan>\n1. Put the clean apple in the microwave\n</plan>\n\n<action>\nput(apple, microwave)\n</action>",
+      "metadata": {},
+      "start_time": "2025-01-01T00:00:10Z",
+      "end_time": "2025-01-01T00:00:11Z"
+    },
+    {
+      "id": "obs-12",
+      "type": "EVENT",
+      "name": "environment_response",
+      "input": null,
+      "output": "Success! You put the clean apple in the microwave. Task completed.",
+      "metadata": {
+        "is_environment_response": true
+      },
+      "start_time": "2025-01-01T00:00:11Z",
+      "end_time": "2025-01-01T00:00:11Z"
+    }
+  ]
+}

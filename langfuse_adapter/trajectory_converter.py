@@ -196,12 +196,16 @@ def _build_messages_from_observations(trace: Dict[str, Any]) -> List[Dict[str, s
 
     for i, obs in enumerate(sorted_obs):
         obs_type = obs.get('type', '').upper()
+        obs_name = obs.get('name', '').lower()
         obs_input = obs.get('input')
         obs_output = obs.get('output')
         obs_metadata = obs.get('metadata', {})
 
-        # If this is a GENERATION, it's an assistant message
-        if obs_type == 'GENERATION':
+        # Check if this is an agent action node (e.g., action_llm_node)
+        is_agent_action = 'action' in obs_name and 'llm' in obs_name
+
+        # If this is a GENERATION or agent action node, it's an assistant message
+        if obs_type == 'GENERATION' or is_agent_action:
             # Add user message before this if needed
             if need_initial_user and obs_input:
                 user_content = _format_user_message(obs_input)
@@ -350,8 +354,16 @@ def _is_agent_step(obs: Dict) -> bool:
 
     # Check observation name
     name = obs.get('name', '').lower()
-    if any(keyword in name for keyword in ['agent', 'step', 'decision', 'planning']):
-        return True
+
+    # Check for common agent node names
+    agent_keywords = ['action', 'agent', 'step', 'decision', 'planning', 'llm']
+    if any(keyword in name for keyword in agent_keywords):
+        # Special case: action_llm_node or similar
+        if 'action' in name and 'llm' in name:
+            return True
+        # Other agent-related names
+        if any(keyword in name for keyword in ['agent', 'step', 'decision', 'planning']):
+            return True
 
     # Check if output has agent-like structure
     output = obs.get('output')
