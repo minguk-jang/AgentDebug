@@ -1,0 +1,92 @@
+{
+  "id": "trace-success-001",
+  "name": "product-search-task",
+  "metadata": {
+    "task": "Find a laptop under $500 and add to cart",
+    "success": true,
+    "environment": "webshop"
+  },
+  "input": "Your task is: Find a laptop under $500 and add to cart",
+  "output": {
+    "success": true,
+    "message": "Task completed successfully"
+  },
+  "observations": [
+    {
+      "id": "obs-1",
+      "type": "GENERATION",
+      "name": "agent-step-1",
+      "start_time": "2024-01-01T10:00:00Z",
+      "end_time": "2024-01-01T10:00:02Z",
+      "metadata": {
+        "is_agent_step": true,
+        "step": 1
+      },
+      "input": {
+        "messages": [
+          {
+            "role": "user",
+            "content": "Your task is: Find a laptop under $500 and add to cart\nYou are on the homepage. Available actions: search[query], click[button]"
+          }
+        ]
+      },
+      "output": "<memory></memory><reflection>Starting the task. I need to search for laptops within budget.</reflection><plan>I will search for laptops and filter by price.</plan><action>search[laptop under 500]</action>",
+      "model": "gpt-4",
+      "usage": {
+        "prompt_tokens": 100,
+        "completion_tokens": 50
+      }
+    },
+    {
+      "id": "obs-2",
+      "type": "GENERATION",
+      "name": "agent-step-2",
+      "start_time": "2024-01-01T10:00:03Z",
+      "end_time": "2024-01-01T10:00:05Z",
+      "metadata": {
+        "is_agent_step": true,
+        "step": 2
+      },
+      "input": {
+        "content": "Search results: [1] Dell Inspiron - $449.99, [2] HP Pavilion - $399.99, [3] Acer Aspire - $479.99"
+      },
+      "output": "<memory>Previous step: Searched for laptops under $500. Found 3 options.</memory><reflection>Good progress. Found suitable laptops within budget.</reflection><plan>I will select the HP Pavilion as it's the best value at $399.99.</plan><action>click[2]</action>",
+      "model": "gpt-4",
+      "usage": {
+        "prompt_tokens": 150,
+        "completion_tokens": 60
+      }
+    },
+    {
+      "id": "obs-3",
+      "type": "GENERATION",
+      "name": "agent-step-3",
+      "start_time": "2024-01-01T10:00:06Z",
+      "end_time": "2024-01-01T10:00:08Z",
+      "metadata": {
+        "is_agent_step": true,
+        "step": 3
+      },
+      "input": {
+        "content": "Product page: HP Pavilion - $399.99. Features: 8GB RAM, 256GB SSD. Available actions: add_to_cart, back"
+      },
+      "output": "<memory>Selected HP Pavilion at $399.99, which is within the $500 budget.</memory><reflection>Perfect choice. This meets all requirements.</reflection><plan>I will add this laptop to the cart to complete the task.</plan><action>add_to_cart</action>",
+      "model": "gpt-4",
+      "usage": {
+        "prompt_tokens": 180,
+        "completion_tokens": 55
+      }
+    },
+    {
+      "id": "obs-4",
+      "type": "EVENT",
+      "name": "task-completion",
+      "start_time": "2024-01-01T10:00:09Z",
+      "metadata": {
+        "is_environment_response": true
+      },
+      "input": null,
+      "output": "Success! HP Pavilion added to cart. Task completed."
+    }
+  ]
+}

@@ -58,6 +58,12 @@ htmlcov/
 # Output files
 output/
 results/
+converted/
 *.json
 !pyproject.json
 !tests/fixtures/*.json
+!traces/README.md
+
+# Trace files (keep directory structure, ignore trace JSONs)
+traces/*.json
+!traces/example_trace.json
