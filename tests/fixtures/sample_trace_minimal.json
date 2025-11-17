@@ -1,0 +1,23 @@
+{
+  "id": "trace-minimal-003",
+  "name": "minimal-trace",
+  "metadata": {
+    "task": "Simple test task",
+    "success": false
+  },
+  "input": "Complete the task",
+  "output": "Task failed",
+  "observations": [
+    {
+      "id": "obs-1",
+      "type": "GENERATION",
+      "name": "step-1",
+      "start_time": "2024-01-01T12:00:00Z",
+      "end_time": "2024-01-01T12:00:01Z",
+      "metadata": {},
+      "input": "Complete the task",
+      "output": "I will complete the task",
+      "model": "gpt-4"
+    }
+  ]
+}

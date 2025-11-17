@@ -1,0 +1,92 @@
+{
+  "id": "trace-failure-002",
+  "name": "budget-constraint-violation",
+  "metadata": {
+    "task": "Find a smartphone under $300 and add to cart",
+    "success": false,
+    "environment": "webshop"
+  },
+  "input": "Your task is: Find a smartphone under $300 and add to cart",
+  "output": {
+    "success": false,
+    "message": "Task failed - budget constraint violated"
+  },
+  "observations": [
+    {
+      "id": "obs-1",
+      "type": "GENERATION",
+      "name": "agent-step-1",
+      "start_time": "2024-01-01T11:00:00Z",
+      "end_time": "2024-01-01T11:00:02Z",
+      "metadata": {
+        "is_agent_step": true,
+        "step": 1
+      },
+      "input": {
+        "messages": [
+          {
+            "role": "user",
+            "content": "Your task is: Find a smartphone under $300 and add to cart\nYou are on the homepage. Available actions: search[query], click[category]"
+          }
+        ]
+      },
+      "output": "<memory></memory><reflection>I need to find a smartphone within the $300 budget.</reflection><plan>I'll search for smartphones.</plan><action>search[smartphone]</action>",
+      "model": "gpt-4",
+      "usage": {
+        "prompt_tokens": 100,
+        "completion_tokens": 40
+      }
+    },
+    {
+      "id": "obs-2",
+      "type": "GENERATION",
+      "name": "agent-step-2",
+      "start_time": "2024-01-01T11:00:03Z",
+      "end_time": "2024-01-01T11:00:05Z",
+      "metadata": {
+        "is_agent_step": true,
+        "step": 2
+      },
+      "input": {
+        "content": "Search results: [1] iPhone 13 - $599.99, [2] Samsung Galaxy A52 - $279.99, [3] Google Pixel 6 - $499.99"
+      },
+      "output": "<memory>Searched for smartphones. Found 3 options.</memory><reflection>I can see some good phones. The iPhone looks great.</reflection><plan>I'll select the iPhone 13 because it has the best features.</plan><action>click[1]</action>",
+      "model": "gpt-4",
+      "usage": {
+        "prompt_tokens": 150,
+        "completion_tokens": 50
+      }
+    },
+    {
+      "id": "obs-3",
+      "type": "GENERATION",
+      "name": "agent-step-3",
+      "start_time": "2024-01-01T11:00:06Z",
+      "end_time": "2024-01-01T11:00:08Z",
+      "metadata": {
+        "is_agent_step": true,
+        "step": 3
+      },
+      "input": {
+        "content": "Product page: iPhone 13 - $599.99. Features: 128GB, 5G, Great camera. Available actions: add_to_cart, back"
+      },
+      "output": "<memory>Selected iPhone 13. It has excellent features.</memory><reflection>This is a great phone with premium features.</reflection><plan>I will add this to cart.</plan><action>add_to_cart</action>",
+      "model": "gpt-4",
+      "usage": {
+        "prompt_tokens": 170,
+        "completion_tokens": 45
+      }
+    },
+    {
+      "id": "obs-4",
+      "type": "EVENT",
+      "name": "constraint-violation",
+      "start_time": "2024-01-01T11:00:09Z",
+      "metadata": {
+        "is_environment_response": true
+      },
+      "input": null,
+      "output": "Error! Item price ($599.99) exceeds budget constraint ($300). Task failed."
+    }
+  ]
+}

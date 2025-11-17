@@ -60,3 +60,4 @@ output/
 results/
 *.json
 !pyproject.json
+!tests/fixtures/*.json
