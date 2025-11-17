@@ -5,6 +5,7 @@ Langfuse to AgentDebug Trajectory Converter
 Converts Langfuse trace format to AgentDebug trajectory format.
 """
 
+import os
 import re
 import logging
 from typing import Dict, Any, List, Optional
@@ -267,6 +268,9 @@ def _format_assistant_message(output: Any, metadata: Dict) -> str:
 
     Expected format:
     <memory>...</memory><reflection>...</reflection><plan>...</plan><action>...</action>
+
+    Note: For plain text outputs without structure, this returns a simple <action> wrapper.
+    Use convert_langfuse_to_agentdebug_with_decomposer() for LLM-based module decomposition.
     """
     # If output is already in XML format, return as-is
     if isinstance(output, str):

@@ -7,11 +7,18 @@ A LangGraph-based system that analyzes Langfuse agent execution traces using the
 This project bridges Langfuse's agent trajectory storage with AgentDebug's sophisticated error analysis capabilities. It automatically:
 
 1. Fetches agent execution traces from Langfuse
-2. Converts them to AgentDebug's expected format
+2. **Converts them to AgentDebug's expected format** (with optional LLM-based module decomposition)
 3. Performs two-phase error analysis:
    - **Phase 1**: Fine-grained error detection for each step and module
    - **Phase 2**: Critical error identification (root cause analysis)
 4. Generates comprehensive terminal reports
+
+### Key Features
+
+- **Flexible Trace Conversion**: Handles both structured (XML-tagged) and plain text agent outputs
+- **LLM-Based Module Decomposition**: Automatically decomposes plain text responses into memory, reflection, plan, and action modules
+- **TDD Approach**: 43+ passing tests ensure reliability
+- **Graceful Degradation**: Falls back to simple formatting if decomposition fails
 
 ## AgentDebug Concepts
 
@@ -275,11 +282,30 @@ Environment responses should appear as:
 
 ### Flexible Conversion
 
-The converter is designed to handle various Langfuse trace structures:
+The converter handles various Langfuse trace structures:
 
-- If observations don't follow the exact format, it will attempt best-effort conversion
-- Missing modules (e.g., no explicit memory/reflection tags) will be handled gracefully
-- The system wraps unstructured output in `<action>` tags if needed
+**Structured Output** (preferred):
+- XML format: `<memory>...</memory><plan>...</plan><action>...</action>`
+- Dict format: `{"memory": "...", "plan": "...", "action": "..."}`
+- Metadata: Modules specified in observation.metadata
+
+**Plain Text Output** (auto-decomposed):
+```python
+# Input: Plain text agent response
+"I need to search for laptops. Let me use the search function."
+
+# Output: Automatically decomposed into modules using LLM
+<memory></memory>
+<reflection>Starting the task</reflection>
+<plan>I will search for laptops</plan>
+<action>search[laptops]</action>
+```
+
+**Module Decomposition Features**:
+- **Automatic**: Enabled by default for plain text outputs
+- **Context-Aware**: Uses previous steps to improve decomposition
+- **Graceful Fallback**: Falls back to `<action>` wrapper if decomposition fails
+- **Configurable**: Disable with `ENABLE_MODULE_DECOMPOSER=false`
 
 ## Project Structure
 
@@ -463,7 +489,7 @@ tests/
 
 #### Test Coverage
 
-Current test coverage: **36 tests, 100% passing**
+Current test coverage: **43 tests, 100% passing**
 
 - **Trajectory Converter Tests** (25 tests)
   - Success/failure/minimal trace conversion
@@ -471,6 +497,13 @@ Current test coverage: **36 tests, 100% passing**
   - Task description extraction
   - Message formatting (user/assistant)
   - AgentDebug format validation
+
+- **Module Decomposer Tests** (7 tests)
+  - LLM-based decomposition
+  - Context handling
+  - Malformed JSON recovery
+  - API error handling
+  - Prompt construction
 
 - **Integration Tests** (11 tests)
   - Full pipeline node testing

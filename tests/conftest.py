@@ -33,6 +33,13 @@ def sample_trace_minimal(fixtures_dir):
 
 
 @pytest.fixture
+def sample_trace_plaintext(fixtures_dir):
+    """Load plain text trace fixture"""
+    with open(fixtures_dir / "sample_trace_plaintext.json", "r") as f:
+        return json.load(f)
+
+
+@pytest.fixture
 def mock_openai_response():
     """Mock OpenAI API response for error detection"""
     return {
@@ -44,6 +51,25 @@ def mock_openai_response():
                         "error_type": "no_error",
                         "evidence": "No errors detected",
                         "reasoning": "The module performed correctly"
+                    })
+                }
+            }
+        ]
+    }
+
+
+@pytest.fixture
+def mock_decomposer_response():
+    """Mock OpenAI API response for module decomposition"""
+    return {
+        "choices": [
+            {
+                "message": {
+                    "content": json.dumps({
+                        "memory": "Previously I searched for headphones.",
+                        "reflection": "The results show good options within budget.",
+                        "plan": "I will select the best value option.",
+                        "action": "click[2]"
                     })
                 }
             }

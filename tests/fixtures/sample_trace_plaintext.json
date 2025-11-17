@@ -1,0 +1,80 @@
+{
+  "id": "trace-plaintext-004",
+  "name": "plain-text-agent-response",
+  "metadata": {
+    "task": "Find wireless headphones under $100",
+    "success": true,
+    "environment": "webshop"
+  },
+  "input": "Your task is: Find wireless headphones under $100",
+  "output": {
+    "success": true,
+    "message": "Task completed"
+  },
+  "observations": [
+    {
+      "id": "obs-1",
+      "type": "GENERATION",
+      "name": "agent-step-1",
+      "start_time": "2024-01-01T14:00:00Z",
+      "end_time": "2024-01-01T14:00:02Z",
+      "metadata": {
+        "is_agent_step": true,
+        "step": 1
+      },
+      "input": {
+        "messages": [
+          {
+            "role": "user",
+            "content": "Your task is: Find wireless headphones under $100\nYou are on the homepage. Available actions: search[query], click[category]"
+          }
+        ]
+      },
+      "output": "I need to search for wireless headphones within the budget. Let me use the search function to find suitable products. I'll search for 'wireless headphones under 100'.",
+      "model": "gpt-4"
+    },
+    {
+      "id": "obs-2",
+      "type": "GENERATION",
+      "name": "agent-step-2",
+      "start_time": "2024-01-01T14:00:03Z",
+      "end_time": "2024-01-01T14:00:05Z",
+      "metadata": {
+        "is_agent_step": true,
+        "step": 2
+      },
+      "input": {
+        "content": "Search results: [1] Sony WH-CH510 - $59.99, [2] JBL Tune 500BT - $49.99, [3] Anker Soundcore Q20 - $79.99"
+      },
+      "output": "Good! I found three options all within budget. Previously I searched for headphones and now I can see the results. The JBL Tune 500BT at $49.99 offers the best value. I should click on option 2 to view more details and potentially purchase it. Let me click on the JBL headphones.",
+      "model": "gpt-4"
+    },
+    {
+      "id": "obs-3",
+      "type": "GENERATION",
+      "name": "agent-step-3",
+      "start_time": "2024-01-01T14:00:06Z",
+      "end_time": "2024-01-01T14:00:08Z",
+      "metadata": {
+        "is_agent_step": true,
+        "step": 3
+      },
+      "input": {
+        "content": "Product page: JBL Tune 500BT - $49.99. Wireless Bluetooth headphones, 16-hour battery life. Available actions: add_to_cart, back"
+      },
+      "output": "Perfect! I'm now viewing the JBL Tune 500BT which costs $49.99, well within the $100 budget. Earlier I searched and found this was the best value option. The specifications look good with 16-hour battery life. This meets all the requirements - it's wireless and under budget. I should add this to cart to complete the task. I'll execute the add_to_cart action now.",
+      "model": "gpt-4"
+    },
+    {
+      "id": "obs-4",
+      "type": "EVENT",
+      "name": "task-completion",
+      "start_time": "2024-01-01T14:00:09Z",
+      "metadata": {
+        "is_environment_response": true
+      },
+      "input": null,
+      "output": "Success! JBL Tune 500BT added to cart. Task completed."
+    }
+  ]
+}
