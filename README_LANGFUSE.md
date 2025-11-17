@@ -128,6 +128,13 @@ LANGFUSE_SECRET_KEY=sk-lf-your-actual-key
 LANGFUSE_HOST=https://cloud.langfuse.com
 ```
 
+**📚 자세한 환경 설정 가이드**: [ENV_SETUP.md](ENV_SETUP.md) 참고
+
+환경 변수 확인:
+```bash
+uv run check_env.py
+```
+
 ## Usage
 
 ### Basic Usage
@@ -217,6 +224,26 @@ Step 7:
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ```
+
+### Phase별 독립 실행
+
+Phase 1과 Phase 2를 각각 독립적으로 실행하고 테스트할 수 있습니다:
+
+```bash
+# Phase 1만 실행 (Fine-grained error detection)
+uv run run_phase1.py <trace-id>
+
+# Phase 2만 실행 (Phase 1 결과 파일 사용)
+uv run run_phase2.py --phase1-results results/phase1_<trace-id>.json
+
+# Phase 1 + Phase 2 함께 실행
+uv run run_phase2.py <trace-id>
+
+# 픽스처로 테스트 (Langfuse API 없이)
+uv run demo_phases.py --fixture success
+```
+
+**📚 자세한 Phase 테스트 가이드**: [PHASE_TESTING.md](PHASE_TESTING.md) 참고
 
 ## Langfuse Trace Requirements
 
