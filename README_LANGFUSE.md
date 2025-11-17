@@ -421,8 +421,95 @@ uv add numpy
 
 ### Running Tests
 
+This project uses **Test-Driven Development (TDD)**. All tests are written using pytest and run automatically on code changes.
+
+#### Run All Tests
+
 ```bash
 uv run pytest
+```
+
+#### Run Specific Test File
+
+```bash
+uv run pytest tests/test_trajectory_converter.py
+```
+
+#### Run with Verbose Output
+
+```bash
+uv run pytest -v
+```
+
+#### Run with Coverage
+
+```bash
+uv add pytest-cov  # Install coverage plugin first
+uv run pytest --cov=langfuse_adapter --cov=agent --cov-report=html
+```
+
+#### Test Structure
+
+```
+tests/
+├── fixtures/                    # Sample Langfuse traces
+│   ├── sample_trace_success.json    # Successful execution
+│   ├── sample_trace_failure.json    # Failed execution with errors
+│   └── sample_trace_minimal.json    # Minimal trace structure
+├── conftest.py                  # Pytest fixtures and configuration
+├── test_trajectory_converter.py # Unit tests for converter
+└── test_integration.py          # Integration tests for pipeline
+```
+
+#### Test Coverage
+
+Current test coverage: **36 tests, 100% passing**
+
+- **Trajectory Converter Tests** (25 tests)
+  - Success/failure/minimal trace conversion
+  - Success inference from various sources
+  - Task description extraction
+  - Message formatting (user/assistant)
+  - AgentDebug format validation
+
+- **Integration Tests** (11 tests)
+  - Full pipeline node testing
+  - Error handling and graceful degradation
+  - Report generation
+  - End-to-end conversion with fixtures
+
+#### Adding New Tests
+
+When adding new features, create corresponding tests:
+
+1. **Unit Tests**: Test individual functions in isolation
+2. **Integration Tests**: Test full pipeline behavior
+3. **Fixtures**: Add sample traces to `tests/fixtures/`
+
+Example test:
+
+```python
+@pytest.mark.asyncio
+async def test_my_feature(sample_trace_success):
+    """Test description"""
+    state = {
+        "trace_id": "test",
+        "raw_trace": sample_trace_success,
+        "errors": []
+    }
+
+    result = await my_node(state)
+
+    assert result["output"] is not None
+```
+
+#### Continuous Testing During Development
+
+For TDD workflow, use pytest watch mode (requires pytest-watch):
+
+```bash
+uv add pytest-watch
+uv run ptw  # Automatically runs tests on file changes
 ```
 
 ### Code Style
@@ -430,6 +517,7 @@ uv run pytest
 The project follows standard Python conventions. To format code:
 
 ```bash
+uv add black ruff  # Install formatters first
 uv run black .
 uv run ruff check .
 ```
