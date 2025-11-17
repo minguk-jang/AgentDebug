@@ -13,7 +13,7 @@ from pathlib import Path
 from typing import Dict, List, Any, Optional
 from dataclasses import dataclass, asdict
 import logging
-from error_definitions import ErrorDefinitionsLoader
+from .error_definitions import ErrorDefinitionsLoader
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
