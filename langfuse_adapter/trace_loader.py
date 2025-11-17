@@ -53,9 +53,20 @@ async def load_trace(trace_id: str) -> Dict[str, Any]:
             host=host
         )
 
-        # Fetch the trace
+        # Fetch the trace (support both SDK v2 and v3)
         logger.info(f"Fetching trace: {trace_id}")
-        trace = langfuse.fetch_trace(trace_id)
+        try:
+            # Try SDK v3 API first
+            if hasattr(langfuse, 'api') and hasattr(langfuse.api, 'trace'):
+                trace = langfuse.api.trace.get(trace_id)
+            # Fall back to SDK v2 API
+            elif hasattr(langfuse, 'fetch_trace'):
+                trace = langfuse.fetch_trace(trace_id)
+            else:
+                raise AttributeError("Langfuse SDK method not found. Please upgrade langfuse SDK.")
+        except Exception as e:
+            logger.error(f"Failed to fetch trace: {e}")
+            raise ValueError(f"Trace not found or API error: {trace_id}") from e
 
         if not trace:
             raise ValueError(f"Trace not found: {trace_id}")
@@ -72,7 +83,18 @@ async def load_trace(trace_id: str) -> Dict[str, Any]:
 
         # Fetch observations (spans, generations, events)
         logger.info("Fetching trace observations...")
-        observations = langfuse.fetch_observations(trace_id=trace_id)
+        try:
+            # Try SDK v3 API first
+            if hasattr(langfuse, 'api') and hasattr(langfuse.api, 'observations'):
+                observations = langfuse.api.observations.list(trace_id=trace_id)
+            # Fall back to SDK v2 API
+            elif hasattr(langfuse, 'fetch_observations'):
+                observations = langfuse.fetch_observations(trace_id=trace_id)
+            else:
+                raise AttributeError("Langfuse SDK observations method not found")
+        except Exception as e:
+            logger.error(f"Failed to fetch observations: {e}")
+            raise
 
         # Convert observations to dict format
         for obs in observations.data:

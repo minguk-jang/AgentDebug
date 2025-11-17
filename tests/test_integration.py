@@ -198,17 +198,15 @@ class TestFullPipelineIntegration:
         mock_client = Mock()
         mock_langfuse_class.return_value = mock_client
 
-        # Mock fetch_trace
+        # Mock trace object
         mock_trace = Mock()
         mock_trace.id = sample_trace_success["id"]
         mock_trace.name = sample_trace_success["name"]
         mock_trace.metadata = sample_trace_success["metadata"]
         mock_trace.input = sample_trace_success["input"]
         mock_trace.output = sample_trace_success["output"]
-        mock_client.fetch_trace.return_value = mock_trace
 
-        # Mock fetch_observations
-        mock_observations_response = Mock()
+        # Mock observations
         mock_observations = []
         for obs_data in sample_trace_success["observations"]:
             obs = Mock()
@@ -226,8 +224,24 @@ class TestFullPipelineIntegration:
             obs.version = None
             mock_observations.append(obs)
 
+        mock_observations_response = Mock()
         mock_observations_response.data = mock_observations
-        mock_client.fetch_observations.return_value = mock_observations_response
+
+        # Mock SDK v3 API (preferred)
+        mock_api = Mock()
+        mock_api_trace = Mock()
+        mock_api_observations = Mock()
+
+        mock_api_trace.get = Mock(return_value=mock_trace)
+        mock_api_observations.list = Mock(return_value=mock_observations_response)
+
+        mock_api.trace = mock_api_trace
+        mock_api.observations = mock_api_observations
+        mock_client.api = mock_api
+
+        # Also mock SDK v2 API (fallback)
+        mock_client.fetch_trace = Mock(return_value=mock_trace)
+        mock_client.fetch_observations = Mock(return_value=mock_observations_response)
 
         # Import after mocking
         from langfuse_adapter.trace_loader import load_trace
