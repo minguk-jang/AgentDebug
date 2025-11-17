@@ -84,9 +84,9 @@ async def load_trace(trace_id: str) -> Dict[str, Any]:
         # Fetch observations (spans, generations, events)
         logger.info("Fetching trace observations...")
         try:
-            # Try SDK v3 API first
+            # Try SDK v3 API first (use get_many method)
             if hasattr(langfuse, 'api') and hasattr(langfuse.api, 'observations'):
-                observations = langfuse.api.observations.list(trace_id=trace_id)
+                observations = langfuse.api.observations.get_many(trace_id=trace_id)
             # Fall back to SDK v2 API
             elif hasattr(langfuse, 'fetch_observations'):
                 observations = langfuse.fetch_observations(trace_id=trace_id)

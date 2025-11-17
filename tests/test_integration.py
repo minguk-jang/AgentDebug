@@ -233,7 +233,7 @@ class TestFullPipelineIntegration:
         mock_api_observations = Mock()
 
         mock_api_trace.get = Mock(return_value=mock_trace)
-        mock_api_observations.list = Mock(return_value=mock_observations_response)
+        mock_api_observations.get_many = Mock(return_value=mock_observations_response)
 
         mock_api.trace = mock_api_trace
         mock_api.observations = mock_api_observations
